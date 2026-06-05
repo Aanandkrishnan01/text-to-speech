@@ -1,0 +1,38 @@
+Timestamp,Event,CPU_Usage_Pct,Memory_Usage_MB,Language,Generation_Time_Sec,Details
+17:46.1,Application Start,0,34.5,,,Test run
+17:58.2,Application Start,0,34.1,,,Test run
+17:58.4,Application Start,39.1,41,,,
+17:58.4,Error: File Not Uploaded,0,41,,,Please choose an input .txt or .md file.
+18:13.2,Application Start,0,34.2,,,Test run
+18:13.3,Application Start,22.8,41.2,,,
+18:13.3,Error: File Not Uploaded,0,41.2,,,Please choose an input .txt or .md file.
+18:13.4,Error: Unsupported Format,50,41.3,,,Unsupported file type '.png'. Please choose a .txt or .md file.
+18:13.4,Error: Empty Input,0,41.3,,,The file contains no readable text.
+18:47.8,Application Start,0,40.7,,,
+19:10.7,Audio Generation Start,0,94.3,English,,"Chunks count: 2, Mode: preset"
+19:37.9,Model Loaded,23,155.4,,,"Mode: preset, Model: Qwen/Qwen3-TTS-12Hz-0.6B-CustomVoice"
+19:44.6,Application Pause,20.2,2329.9,,,Window minimized
+20:05.8,Application Resume,66.1,2354,,,Window restored
+20:15.3,Application Pause,63.7,2363,,,Window minimized
+20:22.5,Application Resume,71,2360.8,,,Window restored
+21:39.1,Application Pause,60.3,3320.9,,,Window minimized
+22:08.0,Application Resume,69.4,2191.3,,,Window restored
+22:17.9,Audio Generation Complete,63.5,3053.8,English,187.176,Audio duration: 24.22s
+22:33.2,Application Exit,32.4,2910.2,,,
+07:19.3,Application Start,12.9,34.3,,,Test run
+07:19.5,Application Start,33.3,40.5,,,
+07:19.6,Error: File Not Uploaded,32,40.6,,,Please choose an input .txt or .md file.
+07:19.7,Error: Unsupported Format,20.8,40.6,,,Unsupported file type '.png'. Please choose a .txt or .md file.
+07:19.8,Error: Empty Input,17.4,40.6,,,The file contains no readable text.
+08:00.8,Application Start,2.9,40.8,,,
+08:12.9,Audio Generation Start,5.3,90.6,English,,"Chunks count: 2, Mode: preset"
+08:52.8,Model Loaded,1.3,148.6,,,"Mode: preset, Model: Qwen/Qwen3-TTS-12Hz-0.6B-CustomVoice"
+09:54.2,Application Pause,74,2181.4,,,Window minimized
+11:24.5,Application Resume,69.4,2663.6,,,Window restored
+11:27.2,Application Pause,83.6,1555,,,Window minimized
+11:31.5,Audio Generation Complete,85.7,1356,English,198.656,Audio duration: 23.18s
+2026-06-04 17:14:18.769,Application Exit,1.2,33.7,,,
+2026-06-05 10:26:12.414,Application Start,19.2,40.8,,,
+2026-06-05 10:26:31.421,Application Exit,6.0,44.8,,,
+2026-06-05 10:33:40.806,Application Start,2.8,40.5,,,
+2026-06-05 10:34:02.546,Application Exit,0.0,44.5,,,

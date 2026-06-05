@@ -79,6 +79,11 @@ class TTSEngine:
         )
         self._loaded_mode = mode
         self._log("Model ready.")
+        try:
+            from .logger import log_event
+            log_event("Model Loaded", details=f"Mode: {mode}, Model: {model_id}")
+        except Exception:
+            pass
         return self._model
 
     # -- synthesis --------------------------------------------------------

@@ -1,0 +1,14 @@
+Technical problems:
+cpu usage 
+memory usage
+text processing 
+audio conversion
+voice quality
+
+
+Technical requirements:
+generate log file
+validate uploaded text content
+allow the use of multiple file .txt or .md
+monitor cpu and memory usage during run time
+handle error and exceptions

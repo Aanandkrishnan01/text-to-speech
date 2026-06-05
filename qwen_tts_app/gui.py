@@ -50,6 +50,48 @@ class ConverterApp:
 
         root.after(120, self._drain_events)
 
+        # Structured event logging
+        self._paused = False
+        try:
+            from .logger import log_event
+            log_event("Application Start")
+        except Exception:
+            pass
+
+        root.protocol("WM_DELETE_WINDOW", self._on_close)
+        root.bind("<Unmap>", self._on_minimize)
+        root.bind("<Map>", self._on_restore)
+
+    def _on_close(self) -> None:
+        try:
+            from .logger import log_event
+            log_event("Application Exit")
+        except Exception:
+            pass
+        self.root.destroy()
+
+    def _on_minimize(self, event=None) -> None:
+        if event and event.widget != self.root:
+            return
+        if not self._paused:
+            self._paused = True
+            try:
+                from .logger import log_event
+                log_event("Application Pause", details="Window minimized")
+            except Exception:
+                pass
+
+    def _on_restore(self, event=None) -> None:
+        if event and event.widget != self.root:
+            return
+        if self._paused:
+            self._paused = False
+            try:
+                from .logger import log_event
+                log_event("Application Resume", details="Window restored")
+            except Exception:
+                pass
+
     # -- UI construction --------------------------------------------------
     def _build_ui(self) -> None:
         pad = {"padx": 10, "pady": 6}
@@ -209,7 +251,14 @@ class ConverterApp:
         try:
             params = self._collect_params()
         except ValueError as exc:
-            messagebox.showwarning("Missing information", str(exc))
+            error_msg = str(exc)
+            messagebox.showwarning("Missing information", error_msg)
+            try:
+                from .logger import log_event
+                event_name = "Error: File Not Uploaded" if "choose an input" in error_msg else "Error: Parameters Invalid"
+                log_event(event_name, details=error_msg)
+            except Exception:
+                pass
             return
 
         self.busy = True
@@ -258,6 +307,8 @@ class ConverterApp:
 
     def _run_worker(self, params: dict) -> None:
         """Background thread: load text, synthesize, save. Never touches Tk."""
+        import time
+        start_time = time.time()
         try:
             self._post("log", "Reading input file...")
             text = load_text(params["input"])
@@ -275,6 +326,12 @@ class ConverterApp:
                            f"  Synthesizing chunk {index}/{total} "
                            f"({len(chunk)} chars)...")
 
+            try:
+                from .logger import log_event
+                log_event("Audio Generation Start", language=params["language"], details=f"Chunks count: {len(chunks)}, Mode: {params['mode']}")
+            except Exception:
+                pass
+
             audio, sample_rate = self.engine.convert(
                 chunks,
                 mode=params["mode"],
@@ -285,12 +342,39 @@ class ConverterApp:
                 progress=progress,
             )
 
+            generation_time = time.time() - start_time
+            try:
+                from .logger import log_event
+                log_event("Audio Generation Complete", language=params["language"], generation_time=generation_time, details=f"Audio duration: {len(audio) / sample_rate:.2f}s")
+            except Exception:
+                pass
+
             self._post("log", "Saving audio file...")
-            save_wav(params["output"], audio, sample_rate)
+            try:
+                save_wav(params["output"], audio, sample_rate)
+            except Exception as save_err:
+                try:
+                    from .logger import log_event
+                    log_event("Error: Audio Save Failure", language=params["language"], details=str(save_err))
+                except Exception:
+                    pass
+                raise save_err
+
             duration = len(audio) / sample_rate
             self._post("done", params["output"], duration)
 
         except Exception as exc:  # noqa: BLE001 -- surfaced to the user
+            try:
+                from .logger import log_event
+                exc_msg = str(exc)
+                if isinstance(exc, ValueError) and "Unsupported file type" in exc_msg:
+                    log_event("Error: Unsupported Format", details=exc_msg)
+                elif isinstance(exc, ValueError) and "contains no readable text" in exc_msg:
+                    log_event("Error: Empty Input", details=exc_msg)
+                else:
+                    log_event("Error: Runtime Failure", details=exc_msg)
+            except Exception:
+                pass
             self._post("error", str(exc), traceback.format_exc())
 
     # -- thread-safe messaging -------------------------------------------

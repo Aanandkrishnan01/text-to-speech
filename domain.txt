@@ -1,0 +1,15 @@
+Domain problem:
+visually impaired people may need this app
+people may need this app to listen to audiobooks
+
+
+convert written text to understandable speech
+
+
+Domain requirements:
+
+accept text file from the user
+allow them to choose the preferred language
+convert text to speech
+be able to save the audio file
+provide simple and user friendly interface
