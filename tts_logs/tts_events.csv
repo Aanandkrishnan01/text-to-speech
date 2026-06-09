@@ -36,3 +36,5 @@ Timestamp,Event,CPU_Usage_Pct,Memory_Usage_MB,Language,Generation_Time_Sec,Detai
 2026-06-05 10:26:31.421,Application Exit,6.0,44.8,,,
 2026-06-05 10:33:40.806,Application Start,2.8,40.5,,,
 2026-06-05 10:34:02.546,Application Exit,0.0,44.5,,,
+2026-06-08 17:09:32.681,Application Start,12.3,40.3,,,
+2026-06-08 17:29:57.134,Application Exit,0.0,11.7,,,
